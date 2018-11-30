@@ -1,4 +1,4 @@
-package com.galvanize.badgearamareceptiondesk;
+package com.galvanize.badgearamareceptiondesk.utility;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

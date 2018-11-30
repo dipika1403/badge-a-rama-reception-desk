@@ -1,7 +1,7 @@
 package com.galvanize.badgearamareceptiondesk.service;
 
-import com.galvanize.badgearamareceptiondesk.ExtendedPerson;
-import com.galvanize.badgearamareceptiondesk.VisitStatus;
+import com.galvanize.badgearamareceptiondesk.entity.ExtendedPerson;
+import com.galvanize.badgearamareceptiondesk.enums.VisitStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -17,6 +17,8 @@ public class VerifyListener {
     @Autowired
     VisitService visitService;
 
+
+
     @RabbitListener(queues = "${amqp.queue.name}")
     public void receiveMessageForApp(final ExtendedPerson extendedPerson) throws ParseException {
         LOGGER.info("Received message: {} from sender queue.", extendedPerson);
@@ -24,8 +26,5 @@ public class VerifyListener {
             visitService.verifySave(extendedPerson);
         else if(extendedPerson.getStatus().equals(VisitStatus.WAITING) || extendedPerson.getStatus().equals(VisitStatus.IN) || extendedPerson.getStatus().equals(VisitStatus.OUT))
             visitService.verifyUpdate(extendedPerson, extendedPerson.getStatus() );
-
-
-
     }
 }
